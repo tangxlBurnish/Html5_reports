@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test-valid</title>
+    <link rel="stylesheet" href="../css/test-H5ComponentBase.css">
+    <style>
+        body{
+            margin:0;
+            padding:0;
+            background-color:#000;
+            font-size:12px;
+        }
+        .iphone{
+            width:340px;
+            height:540px;
+            background-color:#fff;
+            position:absolute;
+            left:50%;
+            top:50%;
+            margin:-270px 0 0 -170px;
+        }
+        .h5_component{
+            background-size:100%;
+            background-repeat:no-repeat;
+            position: absolute;
+        }
+
+        .h5_component_base{
+            transition:all 1s;
+        }
+
+    </style>
+</head>
+<body>
+<!--用于测试开发 H5ComponentBase对象 (基本的图文组件)-->
+<div class="iphone"></div>
+<script src="../js/test-H5ComponentBase.js"></script>
+<script src="../js/lib/jquery.js"></script>
+<script>
+    var cfg = {
+        type : "base",
+        text : "",
+        width : 408,
+        height : 316,
+        bg : "../imgs/preface.png",
+        css : {
+            bottom:0,
+            opacity:0
+        },
+        animateIn:{
+            bottom:80,
+            opacity:1
+        },
+        animateOut:{
+            bottom:0,
+            opacity:0
+        },
+        center:true
+    };
+    var h5 = new H5ComponentBase("myName",cfg);
+    $(".iphone").append(h5);
+</script>
+</body>
+</html>

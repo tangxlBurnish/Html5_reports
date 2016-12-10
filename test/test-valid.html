@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test-valid</title>
+    <link rel="stylesheet" href="../css/lib/fullPage.css">
+    <style>
+        body{
+            margin:0;
+            padding:0;
+        }
+        .component{
+            width:50%;
+            height:50px;
+            margin-bottom:20px;
+            background-color:#eee;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="h5">
+    <div class="page section" id="page-1">
+        <div class="component slogan">slogan</div>
+    </div>
+    <div class="page section" id="page-2">
+        <div class="component desc">描述信息</div>
+    </div>
+    <div class="page section" id="page-3">
+        <div class="component bar">柱状图</div>
+    </div>
+    <div class="page section"></div>
+</div>
+<script src = "../js/lib/jquery.js"></script>
+<script src = "../js/lib/jquery-ui.min.js"></script>
+<script src = "../js/lib/jquery.fullPage.js"></script>
+<script>
+    /**
+     * 这里的对事件的处理是这样的:首先fullPage先触发每一个单个页面(.page)的onLeave和afterLoad,在45行
+     * 然后.page去触发.component的onLeave和onLoad,然后再去定义component的onLeave和onLoad事件;在58行
+     * 然后再在定义的onLeave和onLoad里面设置事件;虽然如果直接在fullPage里面直接定义fadeIn和fadeOut事件
+     * 也是可以的,但是不那么清晰;在一个页面元素不是很多的情况下,可以按上面的写法写的更多点.
+     */
+    $(function(){
+        var fullPageOption = {
+            sectionsColor:["#254875","#00FF00","#254587","#695684"],
+            onLeave: function( index, nextIndex, direction){
+                var currentPage = index-1; //这里的index从1开始;
+                $("#h5").find(".page").eq(currentPage).trigger("onLeave");
+            },
+            afterLoad:function( anchorLink, index){
+                var currentPage = index-1; //这里的index从1开始;
+                $("#h5").find(".page").eq(currentPage).trigger("onLoad");
+            },
+            anchors:["page1","page2","page3","page4"]
+        };
+
+        $("#h5").fullpage(fullPageOption);
+        //然后页面接受到了通知之后再查找这个页面下面的component组件来触发onLeave和onLoad事件
+
+        /**
+         * 这里开始定义page和component的事件,其实是可以简化的,但是这样写的话,后面方便扩展.
+         */
+        //因为.page在fullPage被触发事件,然后再触发component的onLeave事件:
+        $(".page").on("onLeave",function(){
+            $(this).find(".component").trigger("onLeave");
+        });
+        //这里写出触发了onLeave的真实事件动作;
+        $(".component").on("onLeave",function(){
+            $(this).fadeOut();
+            //这里return false是为了防止冒泡,然后形成触发的死循环
+            return false;
+        });
+
+        $(".page").on("onLoad",function(){
+            $(this).find(".component").trigger("onLoad");
+        });
+        $(".component").on("onLoad",function(){
+           $(this).fadeIn();
+            return false;
+        });
+
+        //这里是为了初始化,让第一页产生动画效果,因为fullPage初始化的时候,是没有触发onLeave和afterLoad的,因此需要自己触发;
+        $("#h5").find(".page").eq(0).trigger("onLoad");
+
+
+    });
+</script>
+</body>
+</html>

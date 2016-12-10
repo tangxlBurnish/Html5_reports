@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test-H5</title>
+    <link rel="stylesheet" href="../css/lib/fullPage.css">
+
+    <!--<link rel="stylesheet" href="../css/test-H5.css">-->
+    <!--<link rel="stylesheet" href="../css/test-H5ComponentBase.css">-->
+    <style>
+        body{
+            margin:0;
+            padding:0;
+            background-color:#272A35
+        }
+        .section{
+            position: relative;
+        }
+        .h5_component{
+            position: absolute;
+            opacity:0
+        }
+        .h5_component_name_logo{
+            -webkit-animation: rock 2s infinite 1s;
+        }
+        @-webkit-keyframes rock {
+            0%{ transform:rotate(0deg)}
+            5%{ transform:rotate(6deg)}
+            10%{ transform:rotate(-6deg)}
+            15%{ transform:rotate(3deg)}
+            20%{ transform:rotate(-2deg)}
+            25%{ transform:rotate(1deg)}
+            30%{ transform:rotate(-1deg)}
+            70%{ transform:rotate(0deg)}
+        }
+
+    </style>
+</head>
+<body>
+
+<script src="../js/lib/jquery.js"></script>
+<script src="../js/lib/jquery-ui.min.js"></script>
+<script src="../js/lib/jquery.fullPage.js"></script>
+
+<!--H5对象资源&管理内容:页-组件-->
+<script src = "../js/test-H5.js"></script>
+<script src="../js/test-H5ComponentBase.js"></script>
+<script>
+    $(function(){
+        var h5 = new H5();
+        /**
+         *这是生成第一页page元素的一个封装,相同的相同的内容封在了一个函数里面
+         * @addLogo:可以复用,作用是为了加入一个logo的效果;
+         * @addFooter:是加上第一页的下面的'数联出品' 和'滑动观看',这是可以复用的;
+         * @addFirstPageBg:加上了背景上的几个苯环图形,分开的原因是为了响应式的效果,不然不同分辨率可能出错
+         * @addFirstBottomPic:第一页下面的药品图片和人物图片,都是可以改变的
+         *
+         */
+        h5.addLogo = function(){
+            //这是加入的Logo,然后在上面根据logo的css会加入一些css3的rock摇动动画
+            this.addComponent("logo",{
+                width:153,
+                height:173,
+                center:true,
+                bg:"../imgs/page1-logo.png",
+                css:{
+                    top:"50%"
+                },
+                animateIn:{opacity:1},
+                animateOut:{opacity:0},
+                delay:1000
+            });
+            return this;
+        };
+        h5.addFooter = function(){
+            //下面的三个footer,footer-logo和tips分别是每一页和最后一页都有的元素
+            //设置zIndex是为了让logo和tips在背景蒙版的上面
+            this.addComponent("footer",{
+                    width:'100%',
+                    height:88,
+                    css:{
+                        opacity:"0.7",
+                        backgroundColor:"#3D3F46",
+                        bottom:-100,
+                        zIndex:1
+                    },
+                    animateIn:{opacity:0.7,bottom:5},
+                    animateOut:{opacity:0,bottom:-100},
+                    delay:500
+                })
+                .addComponent("footer-logo",{
+                    bg:"../imgs/page1-footer.png",
+                    width:400,
+                    height:88,
+                    css:{
+                        bottom:-100,
+                        left:10,
+                        zIndex:2
+                    },
+                    animateIn:{opacity:1,bottom:5,left:5},
+                    animateOut:{opacity:0,bottom:-100},
+                    delay:1000
+                })
+                .addComponent("footer-logo-tips",{
+                    bg:"../imgs/page1-footer-right.png",
+                    width:184,
+                    height:65,
+                    css:{
+                        bottom:-50,
+                        right:5,
+                        zIndex:2
+                    },
+                    animateIn:{opacity:1,bottom:15,right:5},
+                    animateOut:{opacity:0,bottom:-50},
+                    delay:1000
+                });
+            return this;
+        };
+        h5.addFirstPageBg = function(){
+            //第1,2,3分别是几个边的苯环背景,如果不分开成3个部分的话,可能会有不同分辨率的手机显示不正确的现象,所以响应式必须分开
+            this.addComponent("background-top-left",{
+                    bg:"../imgs/page1-bg-top-left.png",
+                    width:568,
+                    height:267,
+                    css:{
+                        top:0,
+                        left:0
+                    },
+                    animateIn:{opacity:0.2},
+                    animateOut:{opacity:0}
+                })
+                .addComponent("background-top-right",{
+                    bg:"../imgs/page1-bg-top-right.png",
+                    width:567,
+                    height:514,
+                    css:{
+                        top:0,
+                        right:5
+                    },
+                    animateIn:{opacity:0.2},
+                    animateOut:{opacity:0},
+                    delay:500
+                })
+                .addComponent("background-bottom",{
+                    width:763,
+                    height:523,
+                    bg:"../imgs/page1-bg-bottom.png",
+                    css:{
+                        left:0,
+                        bottom:0
+                    },
+                    animateIn:{opacity:0.2},
+                    animateOut:{opacity:0}
+                });
+            return this;
+        };
+        h5.addFirstBottomPic = function(){
+            this.addComponent("background-bottom-tools",{
+                width:324,
+                height:313,
+                bg:"../imgs/page1-bottom-tools.png",
+                css:{
+                    left:-50,
+                    bottom:-60
+                },
+                animateIn:{left:50,bottom:60,opacity:1},
+                animateOut:{left:-50,bottom:-60,opacity:0},
+                delay:500
+            })
+            .addComponent("bottom-right-people",{
+                width:396,
+                height:431,
+                bg:"../imgs/page1-bottom-people.png",
+                css:{
+                    right:-50,
+                    bottom:-50
+                },
+                animateIn:{right:5,bottom:5,opacity:1},
+                animateOut:{right:-50,bottom:-50,opacity:0},
+                delay:500
+            });
+            return this
+        };
+
+        h5.addPage("face","")
+        //这是医院报告的名称,这可能是要频繁更改的部分,以后简单更改这个部分就好了
+            .addComponent("title",{
+                width:613,
+                height:108,
+                center:true,
+                bg:"../imgs/page1-title.png",
+                css:{
+                    top:"30%"
+                },
+                animateIn:{opacity:1},
+                animateOut:{opacity:0},
+                delay:500
+            })
+            //下面的部分比较固定,封装在函数里面,一般不用更改
+            .addLogo().addFirstPageBg().addFirstBottomPic().addFooter()
+             //第一页的添加结束
+
+            .loader();
+    });
+</script>
+</body>
+</html>
