@@ -4,13 +4,10 @@
     <meta charset="UTF-8">
     <title>Test-H5</title>
     <link rel="stylesheet" href="../css/lib/fullPage.css">
+    <link rel="stylesheet" href="../css/lib/normalize.css">
 
-    <!--<link rel="stylesheet" href="../css/test-H5.css">-->
-    <!--<link rel="stylesheet" href="../css/test-H5ComponentBase.css">-->
     <style>
         body{
-            margin:0;
-            padding:0;
             background-color:#272A35
         }
         .section{
@@ -18,7 +15,7 @@
         }
         .h5_component{
             position: absolute;
-            opacity:0
+            /*opacity:0*/
         }
         .h5_component_name_logo{
             -webkit-animation: rock 2s infinite 1s;
@@ -33,6 +30,18 @@
             30%{ transform:rotate(-1deg)}
             70%{ transform:rotate(0deg)}
         }
+        .h5_component_name_caption{
+            background-image:url("../imgs/caption.png");
+            width:682px;
+            height:132px;
+            font-size:60px;
+            top:15%;
+            color:#D9D9D9;
+            text-align:center;
+            line-height:1.7;
+            /* 下面的left是为了让标题居中,如果有更好的方法可以更改*/
+            left:15%
+        }
 
     </style>
 </head>
@@ -41,12 +50,16 @@
 <script src="../js/lib/jquery.js"></script>
 <script src="../js/lib/jquery-ui.min.js"></script>
 <script src="../js/lib/jquery.fullPage.js"></script>
+<script src="../js/lib/echarts.js"></script>
+<script src="../js/echartComponent.js"></script>
 
 <!--H5对象资源&管理内容:页-组件-->
 <script src = "../js/test-H5.js"></script>
 <script src="../js/test-H5ComponentBase.js"></script>
 <script>
     $(function(){
+
+
         var h5 = new H5();
         /**
          *这是生成第一页page元素的一个封装,相同的相同的内容封在了一个函数里面
@@ -200,7 +213,56 @@
             .addLogo().addFirstPageBg().addFirstBottomPic().addFooter()
              //第一页的添加结束
 
-            .loader();
+        .addPage("page_2","")
+                .addComponent("caption",{
+                    text:"这是一个标题",
+                    type:"echart",
+
+                })
+        .addPage("page_3","")
+                .addComponent("caption",{text:"这是一个标题2"})
+        .addPage("page_4","")
+                .addComponent("caption",{text:"这是一个标题3"})
+
+
+
+        .loader();
+
+
+        /**
+         * 这个函数是为了初始化fullpage设置和动画,需要在最后面设置;
+         */
+        function fullPageInit(){
+            //fullPage 的选项,里面定义了,fullpage的动画事件触发情况
+            var fullPageOption = {
+                onLeave: function( index, nextIndex, direction){
+                    var currentPage = index-1; //这里的index从1开始;
+                    $(".h5").find(".h5_page").eq(currentPage).trigger("onLeave");
+                },
+                afterLoad:function( anchorLink, index){
+                    var currentPage = index-1; //这里的index从1开始;
+                    $(".h5").find(".h5_page").eq(currentPage).trigger("onLoad");
+                },
+                anchors:["page1","page2","page3","page4"]
+            };
+            $(".h5").fullpage(fullPageOption);
+
+            //因为.page在fullPage被触发事件,然后再触发component的onLeave事件:
+            //然后再触发h5_component的事件
+            //一层一层触发的原因是,通知触发事件和具体事件如何执行解耦,我只需要通知后面的事件触发就好,具体如何执行动画,具体情况具体定义
+            $(".h5_page").on("onLeave",function(){
+                $(this).find(".h5_component").trigger("onLeave");
+            });
+            $(".h5_page").on("onLoad",function(){
+                $(this).find(".h5_component").trigger("onLoad");
+            });
+
+            //这里是为了初始化,让第一页产生动画效果,因为fullPage初始化的时候,是没有触发onLeave和afterLoad的,因此需要自己触发;
+            $(".h5").find(".h5_page").eq(0).trigger("onLoad");
+        }
+        fullPageInit();
+
+
     });
 </script>
 </body>

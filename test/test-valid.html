@@ -61,23 +61,15 @@
         /**
          * 这里开始定义page和component的事件,其实是可以简化的,但是这样写的话,后面方便扩展.
          */
+
         //因为.page在fullPage被触发事件,然后再触发component的onLeave事件:
         $(".page").on("onLeave",function(){
-            $(this).find(".component").trigger("onLeave");
-        });
-        //这里写出触发了onLeave的真实事件动作;
-        $(".component").on("onLeave",function(){
-            $(this).fadeOut();
-            //这里return false是为了防止冒泡,然后形成触发的死循环
-            return false;
+            $(this).find(".component").fadeOut();
         });
 
         $(".page").on("onLoad",function(){
-            $(this).find(".component").trigger("onLoad");
-        });
-        $(".component").on("onLoad",function(){
-           $(this).fadeIn();
-            return false;
+            $(this).find(".component").fadeIn();
+
         });
 
         //这里是为了初始化,让第一页产生动画效果,因为fullPage初始化的时候,是没有触发onLeave和afterLoad的,因此需要自己触发;

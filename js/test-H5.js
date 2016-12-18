@@ -29,14 +29,12 @@ var H5 = function(){
     this.addPage = function(name, text){
         //@improve:这里我在思考这里的page需不需要加上this;我觉得不加,就是一个闭包,并不会产生一个变量;但是可能有性能的问题;
 
-        //这里加上section是为了配合fullPage来产生一个可以滑动的页面;
+        //这里加上section名称是为了配合fullPage来产生一个可以滑动的页面;
         var page = $("<div class = 'h5_page section'>");
-        if( name != undefined){
-            page.addClass("h5_page_"+ name)
-        }
-        if( text != undefined){
-            page.text(text);
-        }
+
+        name && page.addClass("h5_page" + name);
+        text && page.text(text);
+        
         this.page.push(page);
         this.el.append(page);
         return this;
@@ -51,6 +49,7 @@ var H5 = function(){
     this.addComponent = function(name, outCfg){
         var cfg = outCfg || {},
             component,
+            
         //因为先执行了addPage,然后从addPage的后面链式调用addComponent;因此需要从缓冲栈中获取第一个page
         page = this.page.slice(-1)[0];
 
@@ -64,6 +63,9 @@ var H5 = function(){
             case "base":
                 component = new H5ComponentBase(name,cfg);
                 break;
+            case "echart":
+                component = new H5ComponentEcharts(name,cfg);
+                break;
             default:
                 break;
         }
@@ -74,7 +76,7 @@ var H5 = function(){
     /**
      * H5对象初始化呈现
      */
-    this.loader = function(){
+    this.loader = function( firstPage ){
         this.el.fullpage({
             onLeave: function( index, nextIndex, direction){
                 $(this).find(".h5_component").trigger("onLeave");
@@ -84,6 +86,8 @@ var H5 = function(){
             }
         });
         this.el.show();
+        firstPage && $.fn.fullpage.moveTo( firstPage );
+
     };
 
     return this;

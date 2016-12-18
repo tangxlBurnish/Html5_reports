@@ -34,13 +34,13 @@ var H5ComponentBase = function( name, outerCfg ){
     
     //这里给 component 绑定两个事件,但是 base ,所以无法知晓绑定之后要做什么,所以先绑定之后就标注下class
     component.on("onLoad",function(){
-
         setTimeout(function(){
             $(this).addClass(cls + "_load").removeClass(cls +"_leave");
             //animate 是Jquery的动画方法,接受参数为最后的显示结果.
             cfg.animateIn && component.animate(cfg.animateIn);
         },cfg.delay||0);
 
+        //为了防止事件的冒泡传播所导致的循环问题
         return false;
     });
     
@@ -48,16 +48,6 @@ var H5ComponentBase = function( name, outerCfg ){
         $(this).addClass(cls + "_leave").removeClass(cls +"_load");
         cfg.animateOut && component.animate(cfg.animateOut);
         return false;
-    });
-
-    var leave = true;
-    $("body").click(function(){
-        if (leave){
-            component.trigger("onLoad");
-        }else{
-            component.trigger("onLeave");
-        }
-        leave = !leave;
     });
 
     return component;
