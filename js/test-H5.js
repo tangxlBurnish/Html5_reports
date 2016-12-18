@@ -10,10 +10,10 @@
 
 var H5 = function(){
     //给这对象一个ID用于辨识
-    this.id = ("h5_" + Math.random()).replace(".","_");
+    // this.id = ("h5_" + Math.random()).replace(".","_");
 
     //后面有一个hide的原因是可能中途加载不完全就显示了, 因此等所有的元素先hide,然后等都加载完成再显示(使用提供的loader方法)
-    this.el = $("<div class='h5' id = '" +this.id +"'>").hide();
+    this.el = $("<div class='h5'>").hide();
     $("body").append(this.el);
 
     //每次新增的page丢在这个数组里面, 这是为了实现链式调用的中间缓冲栈,每次在addPage就丢进去,然后addComponent就拿出来;
@@ -39,7 +39,6 @@ var H5 = function(){
         this.el.append(page);
         return this;
     };
-
     /**
      * 新增一个组件
      * @param name {string} 组件的名称
@@ -71,9 +70,9 @@ var H5 = function(){
         page.append(component);
         return this;
     };
-
     /**
      * H5对象初始化呈现
+     * @firstPage {number} 如果添加了这个参数,那么相当于初次读取就跳转到这页
      */
     this.loader = function( firstPage ){
         this.el.fullpage({
@@ -86,7 +85,6 @@ var H5 = function(){
         });
         this.el.show();
         firstPage && $.fn.fullpage.moveTo( firstPage );
-
     };
 
     return this;

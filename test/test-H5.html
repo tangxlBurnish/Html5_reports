@@ -5,45 +5,7 @@
     <title>Test-H5</title>
     <link rel="stylesheet" href="../css/lib/fullPage.css">
     <link rel="stylesheet" href="../css/lib/normalize.css">
-
-    <style>
-        body{
-            background-color:#272A35
-        }
-        .section{
-            position: relative;
-        }
-        .h5_component{
-            position: absolute;
-            opacity:0
-        }
-        .h5_component_name_logo{
-            -webkit-animation: rock 2s infinite 1s;
-        }
-        @-webkit-keyframes rock {
-            0%{ transform:rotate(0deg)}
-            5%{ transform:rotate(6deg)}
-            10%{ transform:rotate(-6deg)}
-            15%{ transform:rotate(3deg)}
-            20%{ transform:rotate(-2deg)}
-            25%{ transform:rotate(1deg)}
-            30%{ transform:rotate(-1deg)}
-            70%{ transform:rotate(0deg)}
-        }
-        .h5_component_name_caption{
-            background-image:url("../imgs/caption.png");
-            width:682px;
-            height:132px;
-            font-size:60px;
-            top:15%;
-            color:#D9D9D9;
-            text-align:center;
-            line-height:1.7;
-            /* 下面的left是为了让标题居中,如果有更好的方法可以更改*/
-            left:15%
-        }
-
-    </style>
+    <link rel="stylesheet" href="../css/test-H5.css">
 </head>
 <body>
 
@@ -405,6 +367,7 @@
                     animateOut:{opacity:0},
                     delay:1000
                 })
+
         .addPage("page_4","")
                 .addFirstPageBg()
                 .addComponent("caption",{text:"玫瑰图比例",animateIn:{opacity:1},animateOut:{opacity:0},delay:800})
@@ -483,6 +446,7 @@
                     animateOut:{opacity:0},
                     delay:1500
                 })
+
         .addPage("page_5","")
                 .addFirstPageBg()
                 .addComponent("caption",{text:"树状图",animateIn:{opacity:1},animateOut:{opacity:0},delay:300})
@@ -588,6 +552,7 @@
                     animateIn:{opacity:1},
                     animateOut:{opacity:0}
                 })
+
         .addPage("page_6","")
                 .addFirstPageBg()
                 .addComponent("caption",{text:"From Illustrator",animateIn:{opacity:1},animateOut:{opacity:0},delay:300})
@@ -603,12 +568,13 @@
                     animateOut:{opacity:0},
                     delay:1000
                 })
+
         .addPage("page_6","")
                 .addFirstPageBg()
                 .addComponent("caption",{text:"谢谢观看",animateIn:{opacity:1},animateOut:{opacity:0},delay:300})
                 .addLogo()
 
-                .loader(6);
+                .loader();
 
 
         /**
