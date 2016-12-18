@@ -3,7 +3,7 @@
  */
 //基本图文组件对象
 
-var H5ComponentBase = function( name, outerCfg ){
+var H5ComponentBase = function( name, outerCfg ) {
     //测试,如果传入的outerCfg为空,就赋值使用空对象;
     var cfg = outerCfg||{};
 
@@ -52,3 +52,4 @@ var H5ComponentBase = function( name, outerCfg ){
 
     return component;
 };
+

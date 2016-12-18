@@ -57,7 +57,6 @@ var H5 = function(){
         cfg = $.extend({
             type:"base"
         },cfg);
-
         //根据添加的属性type来改变组件的cfg特性
         switch(cfg.type){
             case "base":
