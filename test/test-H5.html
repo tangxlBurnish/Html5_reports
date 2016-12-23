@@ -11,16 +11,16 @@
 </head>
 <body>
 
-<script src="../js/lib/jquery.js"></script>
+<script src="../js/lib/jquery.min.js"></script>
 <script src="../js/lib/jquery-ui.min.js"></script>
-<script src="../js/lib/jquery.fullPage.js"></script>
-<script src="../js/lib/echarts.js"></script>
+<script src="../js/lib/jquery.fullPage.min.js"></script>
+<!--<script src="../js/lib/jquery.fullPage.js"></script>-->
+<script src="../js/lib/echarts.min.js"></script>
 <script src="../js/lib/dark.js"></script>
 
 <!--H5对象资源&管理内容:页-组件-->
 <script src="../js/test-H5ComponentBase.js"></script>
 <script src="../js/echartComponent.js"></script>
-
 <script src = "../js/test-H5.js"></script>
 
 <script>
@@ -209,11 +209,19 @@
 
                 .addPage("page_2","")
                 .addFirstPageBg()
-                .addComponent("caption",{text:"支出占比",animateIn:{opacity:1},animateOut:{opacity:0},delay:800})
+                .addComponent("caption",{
+                    text:"支出占比",
+                    width:548,
+                    height:100,
+                    center:true,
+                    animateIn:{opacity:1},
+                    animateOut:{opacity:0},
+                    delay:800
+                })
                 .addComponent("meterGraph",{
                     type:"echart",
-                    height:600,
-                    width:600,
+                    height:700,
+                    width:700,
                     center:true,
                     css:{
                         top:"8%"
@@ -229,9 +237,10 @@
                         },
                         legend: {
                             orient: 'horizontal',
-                            top: -5,
                             itemWidth:25,
                             itemHeight:15,
+                            height:30,
+                            top:-10,
                             textStyle:{
                                 fontSize:16,
                                 fontFamily:"monospace"
@@ -306,18 +315,25 @@
                 })
                 .addArrow()
 
-
                 .addPage("page_3","")
                 .addFirstPageBg()
-                .addComponent("caption",{text:"任务完成比例",animateIn:{opacity:1},animateOut:{opacity:0},delay:800})
+                .addComponent("caption",{
+                    text:"任务完成比例",
+                    width:548,
+                    height:100,
+                    center:true,
+                    animateIn:{opacity:1},
+                    animateOut:{opacity:0},
+                    delay:800
+                })
                 .addComponent("circleGrapn",{
                     type:"echart",
+                    center:true,
                     height:750,
                     width:750,
                     css:{
-                        bottom:"20%"
+                        bottom:"16%"
                     },
-                    center:true,
                     echartOption:{
                         title: {
                             text: (0.7 * 100) + '%',
@@ -429,10 +445,17 @@
                 })
                 .addArrow()
 
-
                 .addPage("page_4","")
                 .addFirstPageBg()
-                .addComponent("caption",{text:"玫瑰图比例",animateIn:{opacity:1},animateOut:{opacity:0},delay:800})
+                .addComponent("caption",{
+                    text:"玫瑰图比例",
+                    width:548,
+                    height:100,
+                    center:true,
+                    animateIn:{opacity:1},
+                    animateOut:{opacity:0},
+                    delay:800
+                })
                 .addComponent("flowerGraph",{
                     type:"echart",
                     height:600,
@@ -522,11 +545,19 @@
 
                 .addPage("page_5","")
                 .addFirstPageBg()
-                .addComponent("caption",{text:"柱状图",animateIn:{opacity:1},animateOut:{opacity:0},delay:300})
+                .addComponent("caption",{
+                    text:"柱状图",
+                    width:548,
+                    height:100,
+                    center:true,
+                    animateIn:{opacity:1},
+                    animateOut:{opacity:0},
+                    delay:800
+                })
                 .addComponent("stackGraph",{
                     type:"echart",
                     height:750,
-                    width:900,
+                    width:800,
                     center:true,
                     css:{
                         bottom:"18%"
@@ -630,7 +661,15 @@
 
                 .addPage("page_6","")
                 .addFirstPageBg()
-                .addComponent("caption",{text:"From Illustrator",animateIn:{opacity:1},animateOut:{opacity:0},delay:300})
+                .addComponent("caption",{
+                    text:"From Illustrator",
+                    width:548,
+                    height:100,
+                    center:true,
+                    animateIn:{opacity:1},
+                    animateOut:{opacity:0},
+                    delay:800
+                })
                 .addComponent("fromIllustator",{
                     width:769,
                     height:568,
@@ -648,7 +687,15 @@
 
                 .addPage("page_6","")
                 .addFirstPageBg()
-                .addComponent("caption",{text:"谢谢观看",animateIn:{opacity:1},animateOut:{opacity:0},delay:300})
+                .addComponent("caption",{
+                    text:"谢谢观看",
+                    width:548,
+                    height:100,
+                    center:true,
+                    animateIn:{opacity:1},
+                    animateOut:{opacity:0},
+                    delay:800
+                })
                 .addLogo()
 
                 .loader();
@@ -659,6 +706,12 @@
          */
         function fullPageInit(){
             //fullPage 的选项,里面定义了,fullpage的动画事件触发情况
+
+            //destroying,解决了多次init的bug,无视就好
+            if (typeof $.fn.fullpage.destroy == 'function') {
+                $.fn.fullpage.destroy('all');
+            }
+
             var fullPageOption = {
                 onLeave: function( index, nextIndex, direction){
                     var currentPage = index-1; //这里的index从1开始;

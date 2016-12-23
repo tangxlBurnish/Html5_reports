@@ -84,7 +84,7 @@ var H5 = function(){
             }
         });
         this.el.show();
-        firstPage && $.fn.fullpage.moveTo( firstPage );
+        // firstPage && $.fn.fullpage.moveTo( firstPage );
     };
 
     return this;

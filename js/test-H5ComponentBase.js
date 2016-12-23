@@ -38,11 +38,18 @@ var H5ComponentBase = function( name, outerCfg ) {
                 });
             }else if(cfg.type === "echart"){
                 //某些echarts的图无法使用,可能需要手动定位,因为只能让canvas居中,但是canvas中间的图片不是居中的
-                var spaceLeftRatio =(((screen.width - cfg.width/2)/screen.width/2)*100 +2 ).toFixed(0) + "%" ;
-                console.log(spaceLeftRatio);
+                // var spaceLeftRatio =(((screen.width - cfg.width/2)/screen.width/2)*100).toFixed(0) + "%" ;
+                // component.css({
+                //     left:spaceLeftRatio
+                // });
+
                 component.css({
-                    left:spaceLeftRatio
-                });
+                    paddingLeft:0,
+                    paddingRight:0,
+                    marginLeft:"auto",
+                    marginRight:"auto",
+                    display:"block"
+                })
             }
 
         }
