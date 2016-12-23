@@ -24,17 +24,27 @@ var H5ComponentBase = function( name, outerCfg ) {
     function uiRender(cfg){
         //&&相当于,如果我前面的一项成立( e,g:cfg有text属性),那么我就执行后面的操作;
         cfg.text   && component.text(cfg.text);
-        cfg.width  && component.width(cfg.width);
-        cfg.height && component.height(cfg.height);
+        cfg.width  && typeof cfg.width == "string"? component.width(cfg.width):component.width(Math.ceil(cfg.width/2));
+        cfg.height && component.height(Math.floor(cfg.height/2));
         cfg.css  && component.css( cfg.css );
         cfg.bg   && component.css("backgroundImage", "url(" +cfg.bg+")");
 
         //设置一个组件位置居中的语法糖
         if( cfg.center === true){
-            component.css({
-                marginLeft : ( cfg.width/2 * -1) +"px",
-                left : "50%"
-            });
+            if(cfg.type !=="echart"){
+                component.css({
+                    marginLeft : ( cfg.width/4 * -1) +"px",
+                    left : "50%"
+                });
+            }else if(cfg.type === "echart"){
+                //某些echarts的图无法使用,可能需要手动定位,因为只能让canvas居中,但是canvas中间的图片不是居中的
+                var spaceLeftRatio =(((screen.width - cfg.width/2)/screen.width/2)*100 +2 ).toFixed(0) + "%" ;
+                console.log(spaceLeftRatio);
+                component.css({
+                    left:spaceLeftRatio
+                });
+            }
+
         }
     }
 
