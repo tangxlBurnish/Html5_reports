@@ -22,18 +22,14 @@ var H5 = function(){
     /**
      * 新增一个页面
      * @param {string} name 组建的名称,会加入到ClassName中
-     * @param text {string} 页内的默认文本
      * @returns {H5} H5对象,可以重复适用H5对象支持的方法
      * @future: 这个函数未来的重构中要加入H5的原型中;
      */
-    this.addPage = function(name, text){
-        //@improve:这里我在思考这里的page需不需要加上this;我觉得不加,就是一个闭包,并不会产生一个变量;但是可能有性能的问题;
-
+    this.addPage = function(name){
         //这里加上section名称是为了配合fullPage来产生一个可以滑动的页面;
         var page = $("<div class = 'h5_page section'>");
 
         name && page.addClass("h5_page" + name);
-        text && page.text(text);
         
         this.page.push(page);
         this.el.append(page);
@@ -56,6 +52,7 @@ var H5 = function(){
         cfg = $.extend({
             type:"base"
         },cfg);
+
         //根据添加的属性type来改变组件的cfg特性
         switch(cfg.type){
             case "base":
