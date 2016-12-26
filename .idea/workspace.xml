@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="28a9291e-8cae-46b4-8b44-e1335a960611" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/test-H5.css" afterPath="$PROJECT_DIR$/css/test-H5.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/test-H5.js" afterPath="$PROJECT_DIR$/js/test-H5.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/test-H5ComponentBase.js" afterPath="$PROJECT_DIR$/js/test-H5ComponentBase.js" />
     </list>
     <ignored path="Html5-可视化报表.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -54,11 +50,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test-H5ComponentBase.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="test-H5ComponentBase.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/test-H5ComponentBase.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="63" column="8" selection-start-line="63" selection-start-column="8" selection-end-line="77" selection-end-column="11" />
+            <state relative-caret-position="528">
+              <caret line="83" column="10" selection-start-line="83" selection-start-column="4" selection-end-line="83" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -84,11 +80,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="echartComponent.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="echartComponent.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/echartComponent.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+            <state relative-caret-position="30">
+              <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
               <folding>
                 <element signature="e#0#42#0" expanded="false" />
               </folding>
@@ -185,6 +181,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Html5-可视化报表" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Html5-可视化报表" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Html5-可视化报表" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -312,12 +322,12 @@
       <workItem from="1482469623307" duration="10869000" />
       <workItem from="1482488703220" duration="4326000" />
       <workItem from="1482571436091" duration="304000" />
-      <workItem from="1482722575617" duration="5664000" />
+      <workItem from="1482722575617" duration="5794000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="109062000" />
+    <option name="totallyTimeSpent" value="109192000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="2307" y="27" width="869" height="773" extended-state="0" />
@@ -584,16 +594,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/echartComponent.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#42#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/css/test-H5.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="100">
@@ -627,6 +627,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/test-H5ComponentBase.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="528">
+          <caret line="83" column="10" selection-start-line="83" selection-start-column="4" selection-end-line="83" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/test-H5.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
@@ -635,11 +643,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/test-H5ComponentBase.js">
+    <entry file="file://$PROJECT_DIR$/js/echartComponent.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="63" column="8" selection-start-line="63" selection-start-column="8" selection-end-line="77" selection-end-column="11" />
-          <folding />
+        <state relative-caret-position="30">
+          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#42#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

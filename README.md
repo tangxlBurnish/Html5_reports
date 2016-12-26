@@ -252,6 +252,9 @@ if( cfg.center === true){
 #####3. 注册组件的一个onLoad事件和onLeave事件.
 
 ~~~
+
+//因为在cfg可以设置delay的属性,来判断多少ms之后触发onload,实现一个慢加载功能
+
 component.on("onLoad",function(){
 	setTimeout(function(){
 	    $(this).addClass(cls + "_load").removeClass(cls +"_leave");
@@ -261,15 +264,37 @@ component.on("onLoad",function(){
 	
 	//为了防止事件的冒泡传播所导致的循环问题
 	return false;
-	});
+});
 	component.on("onLeave",function(){
 	$(this).addClass(cls + "_leave").removeClass(cls +"_load");
 	cfg.animateOut && component.animate(cfg.animateOut);
 	return false;
-	});
+});
 
 ~~~
 
+####echartComponent类的说明:
+
+唯一的功能就是把cfg.echartOption属性传入echarts.init()来渲染echarts
+
+~~~
+
+var H5ComponentEcharts = function(name,cfg){
+	//还是先继承H5ComponentBase来继承几个载入和淡出的功能;
+    var component = new H5ComponentBase(name,cfg);
+    
+    //不一定有cfg.echartOption,所以做一个安全判断
+    var option = cfg.echartOption || {};
+    
+    //注册cfg.echartOption到echarts
+	//这个dark是echarts的主题,可以把颜色变成黑色系
+    var myChart = echarts.init(component[0],"dark");
+    myChart.setOption(option);
+
+    return component;
+};
+
+~~~
 
 ##更新文档说明:
 1. V0.1 使用jquery,fullpage,echarts制作的html5可视化报表;
