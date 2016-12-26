@@ -16,7 +16,6 @@ var H5ComponentBase = function( name, outerCfg ) {
     //h5_component_name_myName 是为了pinpoint某一个组件来指定css
     var component = $( "<div class = 'h5_component " + cls + "' >" ); // id='" +id+"'
 
-
     /**
      * @aims 这个函数是把cfg配置项通过jquery渲染到css
      * @param cfg:传入的配置项

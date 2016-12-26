@@ -45,13 +45,56 @@ this.addPage = function(name){
 
 ###addComponent(name,outCfg)
 
-我们在h5对象后面函数式调用.addComponent(name,outCfg)会添加组件(图片或者echarts等)
+我们在h5对象后面函数式调用.addComponent(name,outCfg)会添加组件(图片或者echarts等);
+
+这个name同样会添加到这个组件的class里面,原因是因为后面可能会添加统一的样式;
+比如说,这个caption就会在css定制特定的样式:
+
+~~~
+.h5_component_name_caption{
+    background-image:url("../imgs/caption.png");
+    font-size:26px;
+    top:15%;
+    color:#D9D9D9;
+    text-align:center;
+    line-height:1.7;
+}
+~~~
+
+然后通过链式的方法调用使用就可以先添加page,再添加合适的component;
 
 >h5.addPage("page_1").addComponent("caption",outCfg1).addComponent("logo",outCfg2)
 
->
+这个outCfg是传入的配置项,会经历几个过程:
 
-下面是方法的具体实现:
+~~~
+//这个过程是为了给通用的component一个base的type;
+//一般来说,可以在外面传入cfg的时候指定为base的type,如果没有指定,这里会默认添加
+cfg = $.extend({
+        type:"base"
+    },cfg);
+
+
+//根据添加的属性type来改变组件的cfg特性
+//其实是相当于一个类型的工厂模式
+switch(cfg.type){
+	//默认的一个base的类型,会继承H5ComponentBase
+    case "base":
+        component = new H5ComponentBase(name,cfg);
+        break;
+        
+    //如果是echart类型组件,那么会继承H5ComponentEcharts
+    //但是在H5ComponentEcharts内部也会首先继承H5ComponentBase;
+    case "echart":
+        component = new H5ComponentEcharts(name,cfg);
+        break;
+    default:
+        break;
+}
+
+~~~
+
+下面是addComponent方法的具体实现:
 
 ~~~
 this.addComponent = function(name, outCfg){
@@ -59,7 +102,7 @@ this.addComponent = function(name, outCfg){
             component,
             
         //因为先执行了addPage,然后从addPage的后面链式调用addComponent;
-        //因此需要从缓冲栈中获取第一个page
+        //因此需要从缓冲栈中获取刚刚传入的page
         page = this.page.slice(-1)[0];
 
         //如果cfg里面没有type属性,那么会在后面加入type属性
@@ -84,7 +127,22 @@ this.addComponent = function(name, outCfg){
 ~~~
 
 
+所以在页面的入口我们大概的工作模式就是:
 
+首先添加一个page,然后添加不同的component,logo,caption等,然后再添加下页重复,最后调用loader()即可;
+
+~~~
+h5 = new H5();
+h5
+.addPage("page_1").addComponent(name,cfg).addComponent(name,cfg)
+.addPage("page_2").addComponent(name,cfg).addComponent(name,cfg)
+.addPage("page_3").addComponent(name,cfg)
+.addPage("page_4").addComponent(name,cfg).addComponent(name,cfg)
+//这个是为了最后的显示h5,之前配置是在H5类中第16行已经hide()
+//如果没有loader()这个调用不会渲染,防止渲染过程出现不同步情况
+.loader() 
+
+~~~
 
 ##Javascript类说明:
 
@@ -98,14 +156,11 @@ h5ComponentBase --> [H5ComponentEcharts] --> h5
 
 ~~~
 //PATH:"../js/test-H5.js" 55行
-//代码片段目的:给h5类加上一个.addComponent()方法.
+//代码片段目的:给h5类加上一个.addComponent()方法中继承H5ComponentBase
 
     this.addComponent = function(name, outCfg){
-        var cfg = outCfg || {},
-            component,
-            
-        //因为先执行了addPage,然后从addPage的后面链式调用addComponent;因此需要从缓冲栈中获取第一个page
-        page = this.page.slice(-1)[0];
+        
+        .....
 
         //如果cfg里面没有type属性,那么会在后面加入type属性
         cfg = $.extend({
@@ -122,15 +177,98 @@ h5ComponentBase --> [H5ComponentEcharts] --> h5
             default:
                 break;
         }
-        page.append(component);
-        return this;
+        .....
     };
 
 ~~~
 
 
-####h5ComponentBase
-1.
+####h5ComponentBase作用
+
+1. 注册一个component,添加一些类名称;
+2. 把outCfg的有关css的样式使用jquery.css()方法渲染UI(封装成为uiRender函数);
+3. 注册组件的一个onLoad事件和onLeave事件.
+
+
+#####1.注册一个component,添加一些类名称;
+
+~~~
+//如果没传入cfg就注册一个新的{};
+var cfg = outerCfg||{};
+
+//把type和name写入,以后会使用
+var cls = "h5_component_" + cfg.type +" h5_component_name_" + name;
+
+//生成一个component的div,然后供后面调用
+var component = $( "<div class = 'h5_component " + cls + "' >" ); 
+~~~
+
+#####2. 把outCfg的有关css的样式使用jquery.css()方法渲染UI(封装成为uiRender函数);
+~~~
+//&&相当于,如果我前面的一项成立( e,g:cfg有text属性),那么我就执行后面的操作;
+cfg.text   && component.text(cfg.text);
+
+//这里需要判断string的原因是可能写入width:"50%"百分比情况
+//如果不是string,那么只可能是数字,那么需要获得除以二,排除出现小数;
+//width和height需要对半的原因是为了retina屏幕的配置问题,看这个文档最下面的知识链接;
+
+cfg.width  && typeof cfg.width == "string"? component.width(cfg.width):component.width(Math.ceil(cfg.width/2));
+
+cfg.height && component.height(Math.floor(cfg.height/2));
+
+//大部分的css除了width,height之外,还需要其它的css样式定制都在这里定制;
+cfg.css  && component.css( cfg.css );
+
+//这里来传入图片的数据
+cfg.bg   && component.css("backgroundImage", "url(" +cfg.bg+")");
+
+//这里的设置中心位置的方法值得推广:
+//如果我在cfg传入了center:true,那么这里会根据type类型来判断如何实现居中
+//因为普通的居中是用第一种方法,echarts的居中使用第二种
+
+if( cfg.center === true){
+	//适用一般html对象的居中
+    if(cfg.type !=="echart"){
+        component.css({
+            marginLeft : ( cfg.width/4 * -1) +"px",
+            left : "50%"
+        });
+        
+    //这里适用canvas的居中
+    }else if(cfg.type === "echart"){
+        //某些echarts的图无法使用,可能需要手动定位
+        //因为只能让canvas居中,但是canvas中间的图片不是居中的
+        component.css({
+            paddingLeft:0,
+            paddingRight:0,
+            marginLeft:"auto",
+            marginRight:"auto",
+            display:"block"
+        })
+    }
+}
+~~~
+
+#####3. 注册组件的一个onLoad事件和onLeave事件.
+
+~~~
+component.on("onLoad",function(){
+	setTimeout(function(){
+	    $(this).addClass(cls + "_load").removeClass(cls +"_leave");
+	    //animate 是Jquery的动画方法,接受参数为最后的显示结果.
+	    cfg.animateIn && component.animate(cfg.animateIn);
+	},cfg.delay||0);
+	
+	//为了防止事件的冒泡传播所导致的循环问题
+	return false;
+	});
+	component.on("onLeave",function(){
+	$(this).addClass(cls + "_leave").removeClass(cls +"_load");
+	cfg.animateOut && component.animate(cfg.animateOut);
+	return false;
+	});
+
+~~~
 
 
 ##更新文档说明:

@@ -80,6 +80,7 @@ var H5 = function(){
                 $(this).find(".h5_component").trigger("onLoad");
             }
         });
+        //这个来显示
         this.el.show();
         // firstPage && $.fn.fullpage.moveTo( firstPage );
     };
