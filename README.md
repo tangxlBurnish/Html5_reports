@@ -23,7 +23,7 @@ h5作为主要类,其中有三个方法:
 
 下面是addPage的内部完整实现:
 
-~~~
+~~~javascript
 this.addPage = function(name){
 	//这里加上一个div页面
     //这里加上'section'是为了配合fullPage语法来产生整个页面;
@@ -40,7 +40,6 @@ this.addPage = function(name){
     //这是为了实现链式调用
     return this; 
 };
-
 ~~~
 
 ###addComponent(name,outCfg)
@@ -50,7 +49,7 @@ this.addPage = function(name){
 这个name同样会添加到这个组件的class里面,原因是因为后面可能会添加统一的样式;
 比如说,这个caption就会在css定制特定的样式:
 
-~~~
+~~~javascript
 .h5_component_name_caption{
     background-image:url("../imgs/caption.png");
     font-size:26px;
@@ -67,7 +66,7 @@ this.addPage = function(name){
 
 这个outCfg是传入的配置项,会经历几个过程:
 
-~~~
+~~~javascript
 //这个过程是为了给通用的component一个base的type;
 //一般来说,可以在外面传入cfg的时候指定为base的type,如果没有指定,这里会默认添加
 cfg = $.extend({
@@ -91,12 +90,11 @@ switch(cfg.type){
     default:
         break;
 }
-
 ~~~
 
 下面是addComponent方法的具体实现:
 
-~~~
+~~~javascript
 this.addComponent = function(name, outCfg){
         var cfg = outCfg || {},
             component,
@@ -123,7 +121,6 @@ this.addComponent = function(name, outCfg){
         page.append(component);
         return this;
     };
-
 ~~~
 
 
@@ -131,7 +128,7 @@ this.addComponent = function(name, outCfg){
 
 首先添加一个page,然后添加不同的component,logo,caption等,然后再添加下页重复,最后调用loader()即可;
 
-~~~
+~~~javascript
 h5 = new H5();
 h5
 .addPage("page_1").addComponent(name,cfg).addComponent(name,cfg)
@@ -141,7 +138,6 @@ h5
 //这个是为了最后的显示h5,之前配置是在H5类中第16行已经hide()
 //如果没有loader()这个调用不会渲染,防止渲染过程出现不同步情况
 .loader() 
-
 ~~~
 
 ##Javascript类说明:
@@ -154,7 +150,7 @@ h5ComponentBase --> [H5ComponentEcharts] --> h5
 
 首先h5ComponentBase是每个类的基类,然后如果是echarts组件的话,再继承了一个H5ComponentEcharts组件,最后生成一个h5的类;
 
-~~~
+~~~javascript
 //PATH:"../js/test-H5.js" 55行
 //代码片段目的:给h5类加上一个.addComponent()方法中继承H5ComponentBase
 
@@ -179,7 +175,6 @@ h5ComponentBase --> [H5ComponentEcharts] --> h5
         }
         .....
     };
-
 ~~~
 
 
@@ -192,7 +187,7 @@ h5ComponentBase --> [H5ComponentEcharts] --> h5
 
 #####1.注册一个component,添加一些类名称;
 
-~~~
+~~~javascript
 //如果没传入cfg就注册一个新的{};
 var cfg = outerCfg||{};
 
@@ -204,7 +199,7 @@ var component = $( "<div class = 'h5_component " + cls + "' >" );
 ~~~
 
 #####2. 把outCfg的有关css的样式使用jquery.css()方法渲染UI(封装成为uiRender函数);
-~~~
+~~~javascript
 //&&相当于,如果我前面的一项成立( e,g:cfg有text属性),那么我就执行后面的操作;
 cfg.text   && component.text(cfg.text);
 
@@ -251,7 +246,7 @@ if( cfg.center === true){
 
 #####3. 注册组件的一个onLoad事件和onLeave事件.
 
-~~~
+~~~javascript
 
 //因为在cfg可以设置delay的属性,来判断多少ms之后触发onload,实现一个慢加载功能
 
@@ -270,14 +265,13 @@ component.on("onLoad",function(){
 	cfg.animateOut && component.animate(cfg.animateOut);
 	return false;
 });
-
 ~~~
 
 ####echartComponent类的说明:
 
 唯一的功能就是把cfg.echartOption属性传入echarts.init()来渲染echarts
 
-~~~
+~~~javascript
 
 var H5ComponentEcharts = function(name,cfg){
 	//还是先继承H5ComponentBase来继承几个载入和淡出的功能;
@@ -293,7 +287,6 @@ var H5ComponentEcharts = function(name,cfg){
 
     return component;
 };
-
 ~~~
 
 ##更新文档说明:
